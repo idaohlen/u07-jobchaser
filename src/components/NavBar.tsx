@@ -1,4 +1,5 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@heroui/react";
+import ThemeSwitcher from '@/components/ThemeSwitcher'
 
 export default function NavBar() {
   return (
@@ -21,6 +22,9 @@ export default function NavBar() {
           <Button as={Link} color="primary" href="#" variant="flat">
             Sign Up
           </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <ThemeSwitcher />
         </NavbarItem>
       </NavbarContent>
     </Navbar>
