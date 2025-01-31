@@ -1,12 +1,12 @@
-import './App.css'
+'use client'
+
 import { Input } from '@heroui/react'
 import { Icon } from '@iconify/react'
 
-import jobs from './data/data'
-import JobsList from './components/JobsList'
+import jobs from '@/data/data'
+import JobsList from '@/components/JobsList'
 
-function App() {
-
+export default function Home() {
   return (
     <div className='max-w-[600px] mx-auto'>
       <Input
@@ -19,7 +19,5 @@ function App() {
       />
       <JobsList data={jobs} />
     </div>
-  )
+  );
 }
-
-export default App

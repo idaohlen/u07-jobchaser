@@ -32,13 +32,10 @@ jspm_packages/
 # Build output
 dist/
 build/
+.next/
 
 # TypeScript
 *.tsbuildinfo
-
-# Tailwind CSS
-tailwind.config.js
-postcss.config.cjs
 
 # ESLint
 .eslintcache

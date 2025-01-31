@@ -1,5 +1,5 @@
-import Job from '../models/Job'
-import JobCard from './JobCard'
+import Job from '@/models/Job'
+import JobCard from '@/components/JobCard'
 
 export default function JobsList({data}: {data: Job[] | []}) {
   return (
