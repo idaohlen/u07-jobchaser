@@ -11,12 +11,13 @@ export default function JobCard({data}: {data: Job}) {
         height={40}
         width={40}
         radius="sm"
+        alt={`Company logo for ${data.company}`}
       />
       <div className='flex flex-col text-left'>
         <p className='text-md font-semibold'>{data.position}</p>
         <p className='text-small text-default-00'>{data.company}</p>
       </div>
-      <div className='ml-auto text-xs text-slate-800'>{data.location} ⋅ {data.contract}</div>
+      <div className='ml-auto text-xs text-slate-800 dark:text-slate-400'>{data.location} ⋅ {data.contract}</div>
     </CardHeader>
     <Divider/>
     <CardFooter className='flex justify-between'>
@@ -24,7 +25,7 @@ export default function JobCard({data}: {data: Job}) {
         {data.languages.map(lang => <Chip key={data.id + lang} size="sm" variant="bordered">{lang}</Chip>)}
         {data.tools.map(tool => <Chip key={tool + data.id} size="sm">{tool}</Chip>)}
       </div>
-      <div className='text-xs text-slate-400'>{data.postedAt}</div>
+      <div className='text-xs text-slate-400 dark:text-slate-600'>{data.postedAt}</div>
     </CardFooter>
   </Card>
   )
