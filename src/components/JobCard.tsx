@@ -1,6 +1,6 @@
-import Job from '../models/Job'
+import Job from '../models/Job';
 
-import { Card, CardHeader, CardFooter, Divider, Image, Chip } from '@heroui/react'
+import { Card, CardHeader, CardFooter, Divider, Image, Chip } from '@heroui/react';
 
 export default function JobCard({data}: {data: Job}) {
   return (

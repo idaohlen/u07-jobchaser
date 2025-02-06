@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import { useTheme } from 'next-themes'
-import { useEffect, useState } from 'react'
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
-import { Switch } from '@heroui/react'
-import { Icon } from '@iconify/react'
+import { Switch } from '@heroui/react';
+import { Icon } from '@iconify/react';
 
 export default function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false)
@@ -23,7 +23,7 @@ export default function ThemeSwitcher() {
   return (
     <Switch
       defaultSelected
-      size="lg"
+      size='lg'
       thumbIcon={({isSelected, className}) =>
         isSelected
       ? <Icon icon='solar:sun-bold' className={className}/>

@@ -1,5 +1,5 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@heroui/react";
-import ThemeSwitcher from '@/components/ThemeSwitcher'
+import ThemeSwitcher from '@/components/ThemeSwitcher';
 
 export default function NavBar() {
   return (
