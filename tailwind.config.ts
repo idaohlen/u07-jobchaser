@@ -3,6 +3,7 @@ import { heroui } from "@heroui/react";
 
 export default {
   content: [
+    "./src/**/*.{html,js,jsx,ts,tsx,css}",
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
