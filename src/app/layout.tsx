@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
 import './globals.css';
-import NavBar from '@/components/NavBar'
-import { ThemeProvider } from 'next-themes'
+import NavBar from '@/components/NavBar';
+import { ThemeProvider } from 'next-themes';
 
 export default function RootLayout({
   children,
@@ -10,7 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body>
       <ThemeProvider attribute='class' defaultTheme='dark'>
         <NavBar />
