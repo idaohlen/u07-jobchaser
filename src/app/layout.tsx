@@ -2,7 +2,7 @@
 
 import './globals.css';
 import Header from '@/components/Header';
-// import { ThemeProvider as CustomThemeProvider } from '@/context/ThemeContext';
+import { ThemeProvider as CustomThemeProvider } from '@/context/ThemeContext';
 import { ThemeProvider } from 'next-themes';
 import { Provider } from 'react-redux';
 import store from '@/store/store';
@@ -19,8 +19,10 @@ export default function RootLayout({
         <Provider store={store}>
           <HeroUIProvider>
             <ThemeProvider attribute='class' defaultTheme='light'>
+              <CustomThemeProvider>
                 <Header />
                 {children}
+              </CustomThemeProvider>
             </ThemeProvider>
           </HeroUIProvider>
         </Provider>
