@@ -2,7 +2,11 @@
 
 import './globals.css';
 import Header from '@/components/Header';
+// import { ThemeProvider as CustomThemeProvider } from '@/context/ThemeContext';
 import { ThemeProvider } from 'next-themes';
+import { Provider } from 'react-redux';
+import store from '@/store/store';
+import { HeroUIProvider } from '@heroui/react';
 
 export default function RootLayout({
   children,
@@ -10,12 +14,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang='en' suppressHydrationWarning>
       <body>
-      <ThemeProvider attribute='class' defaultTheme='dark'>
-        <Header />
-        {children}
-        </ThemeProvider>
+        <Provider store={store}>
+          <HeroUIProvider>
+            <ThemeProvider attribute='class' defaultTheme='light'>
+                <Header />
+                {children}
+            </ThemeProvider>
+          </HeroUIProvider>
+        </Provider>
       </body>
     </html>
   );
