@@ -1,5 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { RootState } from '@/store/rootReducer';
+import { setSearchQuery } from '@/store/slices/searchSlice';
 
 import { Input, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
@@ -10,20 +14,25 @@ import JobsList from '@/components/JobsList';
 import Pagination from '@/components/JobsPagination';
 
 export default function Page() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
+  const query = useSelector((state: RootState) => state.search.query);
+  const dispatch = useDispatch();
 
+  const [filteredJobs, setFilteredJobs] = useState(jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
   const JOBS_PER_PAGE = 8;
   const totalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
 
-  function handleSearchTermChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setSearchTerm(e.target.value);
+  function handleQueryChange(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(setSearchQuery(e.target.value));
   }
 
-  function handleSearch() {
-    const term = searchTerm.toLowerCase();
+  useEffect(() => {
+    handleSearch(query);
+  }, []);
+
+  function handleSearch(searchQuery: string) {
+    const term = searchQuery.toLowerCase();
     const filtered = jobs.filter((job: Job) => {
       return (
         job.position.toLowerCase().includes(term) ||
@@ -52,15 +61,15 @@ export default function Page() {
     <div className='page max-w-[600px] mx-auto mt-12 pb-20'>
       <form className='mb-8 flex gap-2' onSubmit={(e) => {
         e.preventDefault();
-        handleSearch();
+        handleSearch(query);
       }}>
         <Input
           placeholder='Search'
-          value={searchTerm}
-          onChange={handleSearchTermChange}
+          value={query}
+          onChange={handleQueryChange}
           type='text'
         />
-        <Button onPress={handleSearch}>
+        <Button onPress={() => handleSearch(query)}>
           <Icon
             icon='material-symbols:search-rounded'
             className='text-2xl text-default-400 pointer-events-none flex-shrink-0'
