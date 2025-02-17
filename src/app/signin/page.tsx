@@ -1,6 +1,10 @@
 'use client';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/store/rootReducer';
+import { login } from '@/store/slices/authSlice';
+
 import { Input, Button } from '@heroui/react';
 
 interface Inputs {
@@ -15,8 +19,21 @@ export default function Page() {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const dispatch = useDispatch();
+  const users = useSelector((state: RootState) => state.users.users);
+
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
+    const user = users.find(user => user.email === data.email && user.password === data.password);
+    if (user) {
+      dispatch(login({
+        id: user.id,
+        email: user.email,
+        name: user.name
+      }));
+    } else {
+      console.log('Invalid credentials');
+    }
   };
 
   return (

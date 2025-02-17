@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import { ThemeProvider as CustomThemeProvider } from '@/context/ThemeContext';
 import { ThemeProvider } from 'next-themes';
 import { Provider } from 'react-redux';
-import store from '@/store/store';
+import store from '@/store';
 import { HeroUIProvider } from '@heroui/react';
 
 export default function RootLayout({

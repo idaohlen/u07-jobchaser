@@ -1,7 +1,15 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from '@heroui/react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store/rootReducer';
+import { logout } from '@/store/slices/authSlice';
+
+import Link from 'next/link'
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from '@heroui/react';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+
   return (
     <Navbar>
       <NavbarBrand>
@@ -13,14 +21,28 @@ export default function Header() {
         <NavbarItem className=''>
           <Link href="/jobs">Jobs</Link>
         </NavbarItem>
-        <NavbarItem className='hidden lg:flex'>
-          <Link href="/login">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color='primary' href='/signup' variant='flat'>
-            Sign Up
-          </Button>
-        </NavbarItem>
+        { isAuthenticated
+          ? (
+            <>
+              {user?.name}
+              <Button color='primary' variant='flat' onPress={() => dispatch(logout())}>
+                Logout
+              </Button>
+            </>
+          )
+          : (
+            <>
+              <NavbarItem className='hidden lg:flex'>
+                <Link href="/signin">Login</Link>
+              </NavbarItem>
+              <NavbarItem>
+                <Button as={Link} color='primary' href='/signup' variant='flat'>
+                  Sign Up
+                </Button>
+              </NavbarItem>
+            </>
+          )
+        }
         <NavbarItem>
           <ThemeSwitcher />
         </NavbarItem>
