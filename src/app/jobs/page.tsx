@@ -7,10 +7,16 @@ import { Icon } from '@iconify/react';
 import Job from '@/models/Job';
 import jobs from '@/data/jobs';
 import JobsList from '@/components/JobsList';
+import Pagination from '@/components/JobsPagination';
 
 export default function Page() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredJobs, setFilteredJobs] = useState(jobs);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const JOBS_PER_PAGE = 8;
+  const totalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
 
   function handleSearchTermChange(e: React.ChangeEvent<HTMLInputElement>) {
     setSearchTerm(e.target.value);
@@ -30,7 +36,17 @@ export default function Page() {
       );
     });
     setFilteredJobs(filtered);
+    setCurrentPage(1);
   }
+
+  function handleChangePage(page: number) {
+    setCurrentPage(page);
+    console.log(page);
+  }
+
+  const startIndex = (currentPage - 1) * JOBS_PER_PAGE;
+  const endIndex = startIndex + JOBS_PER_PAGE;
+  const currentJobs = filteredJobs.slice(startIndex, endIndex);
 
   return (
     <div className='max-w-[600px] mx-auto mt-12 pb-20'>
@@ -52,7 +68,9 @@ export default function Page() {
         </Button>
       </form>
 
-      <JobsList data={filteredJobs} />
+      <Pagination totalPages={totalPages} onChange={handleChangePage} />
+      <JobsList data={currentJobs} />
+      <Pagination totalPages={totalPages} onChange={handleChangePage} />
     </div>
   )
 }
