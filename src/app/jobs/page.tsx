@@ -49,8 +49,8 @@ export default function Page() {
   const currentJobs = filteredJobs.slice(startIndex, endIndex);
 
   return (
-    <div className='max-w-[600px] mx-auto mt-12 pb-20'>
-      <form className='mb-12 flex gap-2' onSubmit={(e) => {
+    <div className='page max-w-[600px] mx-auto mt-12 pb-20'>
+      <form className='mb-8 flex gap-2' onSubmit={(e) => {
         e.preventDefault();
         handleSearch();
       }}>
@@ -69,6 +69,7 @@ export default function Page() {
       </form>
 
       <Pagination totalPages={totalPages} onChange={handleChangePage} />
+      {currentJobs.length > 0 && <p className="mb-3 text-sm text-gray-600">{currentJobs.length} jobs found</p> }
       <JobsList data={currentJobs} />
       <Pagination totalPages={totalPages} onChange={handleChangePage} />
     </div>

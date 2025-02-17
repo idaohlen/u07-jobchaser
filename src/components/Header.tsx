@@ -11,7 +11,7 @@ export default function Header() {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
 
   return (
-    <Navbar>
+    <Navbar className='fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900'>
       <NavbarBrand>
         <Button as={Link} color='primary' href='/' variant='light' className='font-bold text-inherit text-lg'>
           JobChaser

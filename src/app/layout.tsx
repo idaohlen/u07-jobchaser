@@ -21,7 +21,9 @@ export default function RootLayout({
             <ThemeProvider attribute='class' defaultTheme='light'>
               <CustomThemeProvider>
                 <Header />
-                {children}
+                <main>
+                  {children}
+                </main>
               </CustomThemeProvider>
             </ThemeProvider>
           </HeroUIProvider>
