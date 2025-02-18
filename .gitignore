@@ -48,3 +48,4 @@ coverage/
 *.lock
 *.tmp
 *.temp
+TODOS.md
