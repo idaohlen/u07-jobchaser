@@ -76,15 +76,15 @@ export default function Page() {
 
   // Check if a term matches any of the searchable items
   function matchesTerm(job: Job, term: string) {
-    term = term.toLowerCase();
-    return (
-      job.position.toLowerCase().includes(term) ||
-      job.company.toLowerCase().includes(term) ||
-      job.role.toLowerCase().includes(term) ||
-      job.contract.toLowerCase().includes(term) ||
-      job.location.toLowerCase().includes(term) ||
-      job.languages.some(language => language.toLowerCase().includes(term)) ||
-      job.tools.some(tool => tool.toLowerCase().includes(term))
+    const words = term.toLowerCase().split(' ');
+    return words.every(word =>
+      job.position.toLowerCase().includes(word) ||
+      job.company.toLowerCase().includes(word) ||
+      job.role.toLowerCase().includes(word) ||
+      job.contract.toLowerCase().includes(word) ||
+      job.location.toLowerCase().includes(word) ||
+      job.languages.some(language => language.toLowerCase().includes(word)) ||
+      job.tools.some(tool => tool.toLowerCase().includes(word))
     );
   }
 
