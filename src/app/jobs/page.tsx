@@ -18,6 +18,9 @@ import FilterPresets from '@/models/FilterPresets';
 import JobsList from '@/components/JobsList';
 import Pagination from '@/components/JobsPagination';
 
+// Utils
+import { fetchJobs } from '@/utils/fetchJobs';
+
 export default function Page() {
   // Redux state
   const query = useSelector((state: RootState) => state.search.query);
@@ -53,22 +56,20 @@ export default function Page() {
 
   // Apply search query on mount
   useEffect(() => {
-    async function fetchJobs() {
+    async function loadJobs() {
       setLoading(true);
       try {
-        // const response = await fetch('https://jsonfakery.com/jobs');
-        const response = await fetch('/data/jobs.json');
-        const data = await response.json();
+        const data = await fetchJobs();
         setJobs(data);
         setFilteredJobs(data);
       } catch (error) {
-        console.error('Error fetching jobs:', error);
+        console.error('Error loading jobs:', error);
       } finally {
         setLoading(false);
       }
     }
-  
-    fetchJobs();
+    
+    loadJobs();
   }, []);
 
   // Apply search query when the contents of activeFilters change

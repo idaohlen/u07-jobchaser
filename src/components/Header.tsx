@@ -2,11 +2,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/rootReducer';
 import { logout } from '@/store/slices/authSlice';
 
-import Link from 'next/link'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from '@heroui/react';
+import { useTheme } from 'next-themes';
+
+import Link from 'next/link';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Tooltip } from '@heroui/react';
 import ThemeSwitcher from '@/components/ThemeSwitcher';
+import BookmarkedJobs from '@/components/BookmarkedJobs';
 
 export default function Header() {
+  const { theme } = useTheme();
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
 
@@ -43,8 +47,17 @@ export default function Header() {
             </>
           )
         }
+        {/* Display bookmarked jobs */}
         <NavbarItem>
-          <ThemeSwitcher />
+          <BookmarkedJobs />
+        </NavbarItem>
+        {/* Theme switcher toggle */}
+        <NavbarItem>
+          <Tooltip content={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} showArrow={true}>
+            <div>
+              <ThemeSwitcher />
+            </div>
+          </Tooltip>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
