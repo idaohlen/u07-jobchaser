@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/rootReducer';
 import { setSearchQuery, setFilters, clearFilters } from '@/store/slices/searchSlice';
 
-import { Input, Button, Chip, Select, SelectItem, SelectSection } from '@heroui/react';
+import { Input, Button, Select, SelectItem, SelectSection } from '@heroui/react';
 import { Icon } from '@iconify/react';
 
 import Job from '@/models/Job';
@@ -112,6 +112,7 @@ export default function Page() {
       <div className='flex items-center gap-2 mt-2'>
         <Select
           placeholder='Filters'
+          aria-label='Filter jobs'
           selectionMode='multiple'
           selectedKeys={new Set(activeFilters.map(filter => `filter:${filter}`))}
           onSelectionChange={handleChangeFilter}
