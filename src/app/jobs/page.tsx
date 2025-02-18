@@ -25,6 +25,7 @@ export default function Page() {
   const dispatch = useDispatch();
 
   // State
+  const [localQuery, setLocalQuery] = useState(query);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [filteredJobs, setFilteredJobs] = useState(jobs);
@@ -41,7 +42,13 @@ export default function Page() {
 
   // Update state with the current search query
   function handleQueryChange(e: React.ChangeEvent<HTMLInputElement>) {
-    dispatch(setSearchQuery(e.target.value));
+    setLocalQuery(e.target.value);
+  }
+
+  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(setSearchQuery(localQuery));
+    handleSearch(localQuery);
   }
 
   // Apply search query on mount
@@ -62,11 +69,10 @@ export default function Page() {
     }
   
     fetchJobs();
-    handleSearch(query);
   }, []);
 
   // Apply search query when the contents of activeFilters change
-  useEffect(() => handleSearch(query), [activeFilters]);
+  useEffect(() => handleSearch(query), [query, jobs, activeFilters]);
 
   // Check if a term matches any of the searchable items
   function matchesTerm(job: Job, term: string) {
@@ -117,17 +123,14 @@ export default function Page() {
     <div className='page max-w-[600px] mx-auto mt-12 px-10 pb-20'>
 
       {/* Search jobs form */}
-      <form className='flex gap-2 flex-grow' onSubmit={(e) => {
-        e.preventDefault();
-        handleSearch(query);
-      }}>
+      <form className='flex gap-2 flex-grow' onSubmit={handleFormSubmit}>
         <Input
           placeholder='Search'
-          value={query}
+          value={localQuery}
           onChange={handleQueryChange}
           type='text'
         />
-        <Button onPress={() => handleSearch(query)} color='primary'>
+        <Button type='submit' color='primary'>
           <Icon
             icon='material-symbols:search-rounded'
             className='text-2xl pointer-events-none flex-shrink-0'
