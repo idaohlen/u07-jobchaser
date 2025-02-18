@@ -17,11 +17,14 @@ const searchSlice = createSlice({
     setSearchQuery(state, action: PayloadAction<string>) {
       state.query = action.payload;
     },
-    setFilters(state, action: PayloadAction<string[]>) {
-      state.filters = action.payload;
+    addFilter(state, action: PayloadAction<string>) {
+      state.filters = [...state.filters, action.payload];
     },
+    removeFilter(state, action: PayloadAction<string>) {
+      state.filters = state.filters.filter(filter => filter !== action.payload);
+    }
   }
 });
 
-export const { setSearchQuery, setFilters } = searchSlice.actions;
+export const { setSearchQuery, addFilter, removeFilter } = searchSlice.actions;
 export default searchSlice.reducer;
