@@ -128,13 +128,25 @@ export default function Page() {
         </Button>
       </div>
 
+      {currentJobs.length > 0 &&
+        <div className='flex justify-between items-end mt-8 mb-6'>
+          <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
+          <Pagination
+            totalPages={totalPages}
+            onPageChange={handleChangePage}
+          />
+        </div>
+      }
 
-      <Pagination totalPages={totalPages} onChange={handleChangePage} />
-
-      {currentJobs.length > 0 && <p className='mb-3 text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p> }
       <JobsList data={currentJobs} />
 
-      <Pagination totalPages={totalPages} onChange={handleChangePage} />
+      {currentJobs.length > 0 &&
+        <Pagination
+          className='flex my-8 justify-end'
+          totalPages={totalPages}
+          onPageChange={handleChangePage}
+        />
+      }
     </div>
   )
 }
