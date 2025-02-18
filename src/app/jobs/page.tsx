@@ -1,16 +1,20 @@
 'use client';
+
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootState } from '@/store/rootReducer';
 import { setSearchQuery, setFilters, clearFilters } from '@/store/slices/searchSlice';
 
+// UI Components
 import { Input, Button, Select, SelectItem, SelectSection } from '@heroui/react';
 import { Icon } from '@iconify/react';
 
+// Models
 import Job from '@/models/Job';
 import FilterPresets from '@/models/FilterPresets';
-import jobs from '@/data/jobs';
+
+// Components
 import JobsList from '@/components/JobsList';
 import Pagination from '@/components/JobsPagination';
 
@@ -21,6 +25,8 @@ export default function Page() {
   const dispatch = useDispatch();
 
   // State
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filteredJobs, setFilteredJobs] = useState(jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -33,12 +39,31 @@ export default function Page() {
   // Jobs for current page
   const currentJobs = filteredJobs.slice(startIndex, endIndex);
 
+  // Update state with the current search query
   function handleQueryChange(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(setSearchQuery(e.target.value));
   }
 
   // Apply search query on mount
-  useEffect(() => handleSearch(query), []);
+  useEffect(() => {
+    async function fetchJobs() {
+      setLoading(true);
+      try {
+        // const response = await fetch('https://jsonfakery.com/jobs');
+        const response = await fetch('/data/jobs.json');
+        const data = await response.json();
+        setJobs(data);
+        setFilteredJobs(data);
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  
+    fetchJobs();
+    handleSearch(query);
+  }, []);
 
   // Apply search query when the contents of activeFilters change
   useEffect(() => handleSearch(query), [activeFilters]);
@@ -70,7 +95,7 @@ export default function Page() {
     setCurrentPage(1);
   }
 
-  const handleChangeFilter = (keys: Set<React.Key>) => {
+  function handleChangeFilter(keys: Set<React.Key>) {
     const filters = Array.from(keys).map(key => key.toString().split(':')[1]);
     dispatch(setFilters(filters));
   };
@@ -90,6 +115,8 @@ export default function Page() {
 
   return (
     <div className='page max-w-[600px] mx-auto mt-12 px-10 pb-20'>
+
+      {/* Search jobs form */}
       <form className='flex gap-2 flex-grow' onSubmit={(e) => {
         e.preventDefault();
         handleSearch(query);
@@ -108,7 +135,7 @@ export default function Page() {
         </Button>
       </form>
 
-
+      {/* Job filter presets */}
       <div className='flex items-center gap-2 mt-2'>
         <Select
           placeholder='Filters'
@@ -128,25 +155,30 @@ export default function Page() {
         </Button>
       </div>
 
-      {currentJobs.length > 0 &&
-        <div className='flex justify-between items-end mt-8 mb-6'>
-          <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
-          <Pagination
-            totalPages={totalPages}
-            onPageChange={handleChangePage}
-          />
-        </div>
-      }
+      {/* Display jobs and pagination */}
+      {loading ? (<p>Loading jobs...</p>) : (
+        <>
+          {currentJobs.length > 0 &&
+            <div className='flex justify-between items-end mt-8 mb-6'>
+              <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
+              <Pagination
+                totalPages={totalPages}
+                onPageChange={handleChangePage}
+              />
+            </div>
+          }
 
-      <JobsList data={currentJobs} />
+          <JobsList data={currentJobs} />
 
-      {currentJobs.length > 0 &&
-        <Pagination
-          className='flex my-8 justify-end'
-          totalPages={totalPages}
-          onPageChange={handleChangePage}
-        />
-      }
+          {currentJobs.length > 0 &&
+            <Pagination
+              className='flex my-8 justify-end'
+              totalPages={totalPages}
+              onPageChange={handleChangePage}
+            />
+          }
+        </>
+      )}
     </div>
   )
 }
