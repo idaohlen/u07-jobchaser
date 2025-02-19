@@ -2,19 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { RootState } from '@/store/rootReducer';
-import { setSearchQuery, setFilters, clearFilters } from '@/store/slices/searchSlice';
-
-// UI Components
-import { Input, Button, Select, SelectItem, SelectSection } from '@heroui/react';
-import { Icon } from '@iconify/react';
+import { setFilters, clearFilters } from '@/store/slices/searchSlice';
 
 // Models
 import Job from '@/models/Job';
 import FilterPresets from '@/models/FilterPresets';
 
 // Components
+import { Button, Select, SelectItem, SelectSection } from '@heroui/react';
+
 import JobsList from '@/components/JobsList';
 import Pagination from '@/components/JobsPagination';
 
@@ -28,7 +25,6 @@ export default function Page() {
   const dispatch = useDispatch();
 
   // State
-  const [localQuery, setLocalQuery] = useState(query);
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [filteredJobs, setFilteredJobs] = useState(jobs);
@@ -42,17 +38,6 @@ export default function Page() {
 
   // Jobs for current page
   const currentJobs = filteredJobs.slice(startIndex, endIndex);
-
-  // Update state with the current search query
-  function handleQueryChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setLocalQuery(e.target.value);
-  }
-
-  function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    dispatch(setSearchQuery(localQuery));
-    handleSearch(localQuery);
-  }
 
   // Apply search query on mount
   useEffect(() => {
@@ -124,24 +109,7 @@ export default function Page() {
   }
 
   return (
-    <div className='page max-w-[600px] mx-auto mt-12 px-10 pb-20'>
-
-      {/* Search jobs form */}
-      <form className='flex gap-2 flex-grow' onSubmit={handleFormSubmit}>
-        <Input
-          placeholder='Search'
-          value={localQuery}
-          onChange={handleQueryChange}
-          type='text'
-        />
-        <Button type='submit' color='primary'>
-          <Icon
-            icon='material-symbols:search-rounded'
-            className='text-2xl pointer-events-none flex-shrink-0'
-          />
-        </Button>
-      </form>
-
+    <div className='page max-w-[600px] mx-auto mt-4 px-10 pb-20'>
       {/* Job filter presets */}
       <div className='flex items-center gap-2 mt-2'>
         <Select

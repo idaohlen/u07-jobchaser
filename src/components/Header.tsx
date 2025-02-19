@@ -1,27 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/store/rootReducer';
-import { logout } from '@/store/slices/authSlice';
-
 import { useTheme } from 'next-themes';
-import { useRouter } from 'next/navigation';
 
 import Link from 'next/link';
-import { Icon } from '@iconify/react';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, Button, Tooltip } from '@heroui/react';
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
+// import { Icon } from '@iconify/react';
 
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import BookmarkedJobs from '@/components/BookmarkedJobs';
 import MobileMenu from '@/components/MobileMenu';
+import SearchBar from '@/components/SearchBar';
+import AccountDropdown from '@/components/AccountDropdown';
 
 export default function Header() {
-  const router = useRouter();
   const { theme } = useTheme();
-  const dispatch = useDispatch();
-  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
@@ -42,29 +35,13 @@ export default function Header() {
         </Button>
       </NavbarBrand>
 
-      <NavbarContent justify='end'>
-        <NavbarItem className='hidden sm:flex'><Button variant='light' onPress={() => router.push('/jobs')}>Jobs</Button></NavbarItem>
+      <NavbarItem className='w-full'>
+          <SearchBar />
+        </NavbarItem>
 
+      <NavbarContent justify='end'>
         {/* User account */}
-        <Dropdown>
-          <DropdownTrigger>
-            <Button className='hidden sm:flex' variant='light' startContent={<Icon icon='material-symbols:account-circle' className='text-2xl pointer-events-none flex-shrink-0'/>}>
-            { isAuthenticated ? user?.name : 'Log In or Sign Up' }
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Account">
-            { isAuthenticated
-              ? (
-                  <DropdownItem key="account-logout" onPress={() => dispatch(logout())}>Log Out</DropdownItem>
-              ) : (
-                <>
-                  <DropdownItem key="account-signin" onPress={() => router.push('/signin')}>Log In</DropdownItem>
-                  <DropdownItem key="account-signup" onPress={() => router.push('/signup')}>Sign Up</DropdownItem>
-                </>
-              )
-            }
-          </DropdownMenu>
-        </Dropdown>
+        <AccountDropdown />
 
         {/* Display bookmarked jobs */}
         <NavbarItem>
