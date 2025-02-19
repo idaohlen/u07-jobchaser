@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Pagination } from "@heroui/react";
+import { Pagination } from '@heroui/react';
 
 interface JobsPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   totalPages: number;

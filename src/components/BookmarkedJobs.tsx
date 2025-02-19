@@ -1,4 +1,4 @@
-'ues client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ export default function BookmarkedJobs() {
 
   const dispatch = useDispatch();
 
+  // Fetch bookmarked jobs when bookmarks in the store changes
   useEffect(() => {
     async function loadBookmarkedJobs() {
       setLoading(true);
@@ -35,6 +36,7 @@ export default function BookmarkedJobs() {
     loadBookmarkedJobs();
   }, [bookmarks]);
 
+  // Remove the bookmark from the store
   function handleRemoveBookmark(id: string) {
     dispatch(removeBookmark(id));
   }
@@ -55,11 +57,13 @@ export default function BookmarkedJobs() {
         aria-label='Bookmarked Jobs'
         closeOnSelect={false}
         style={{ maxHeight: '200px', overflowY: 'auto' }} 
-        >
+      >
+      {/* Display loading text while bookmarks are being fetched */}
       {loading ? (
           <DropdownItem key='loading' textValue='Loading...'>Loading...</DropdownItem>
         ) : (
           <>
+            {/* If no bookmarks, display "no bookmarks" text */}
             {bookmarkedJobs.length === 0 ? (
               <DropdownItem key='no-bookmarks' textValue='No bookmarks'>No bookmarks.</DropdownItem>
             ) : (
@@ -69,7 +73,11 @@ export default function BookmarkedJobs() {
                     key={job.id}
                     textValue={`${job.position} at ${job.company}`}
                     endContent={
-                      <Button isIconOnly aria-label='Remove from bookmarks' variant='light' size='sm'
+                      <Button
+                        isIconOnly
+                        aria-label='Remove from bookmarks'
+                        variant='light'
+                        size='sm'
                         onPress={() => handleRemoveBookmark(job.id.toString())}
                       >
                         <Icon

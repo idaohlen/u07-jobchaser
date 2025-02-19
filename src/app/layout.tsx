@@ -16,9 +16,9 @@ export default function RootLayout({
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
-        <Provider store={store}>
-          <HeroUIProvider>
-            <ThemeProvider attribute='class' defaultTheme='light'>
+         <Provider store={store}> {/* Redux store */}
+          <HeroUIProvider> {/* Hero UI component library */}
+            <ThemeProvider attribute='class' defaultTheme='light'> {/* next-themes */}
               <CustomThemeProvider>
                 <Header />
                 <main>

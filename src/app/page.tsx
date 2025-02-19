@@ -11,6 +11,7 @@ export default function Home() {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  // Apply search query to store and redirect to /jobs page
   function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const query = e.currentTarget.search.value;

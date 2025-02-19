@@ -6,6 +6,7 @@ import { useTheme } from 'next-themes';
 
 import Link from 'next/link';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button, Tooltip } from '@heroui/react';
+
 import ThemeSwitcher from '@/components/ThemeSwitcher';
 import BookmarkedJobs from '@/components/BookmarkedJobs';
 
@@ -17,7 +18,13 @@ export default function Header() {
   return (
     <Navbar className='fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900'>
       <NavbarBrand>
-        <Button as={Link} color='primary' href='/' variant='light' className='font-bold text-inherit text-lg'>
+        <Button
+          className='font-bold text-inherit text-lg'
+          as={Link}
+          color='primary'
+          href='/'
+          variant='light'
+        >
           JobChaser
         </Button>
       </NavbarBrand>
@@ -33,8 +40,7 @@ export default function Header() {
                 Logout
               </Button>
             </>
-          )
-          : (
+          ) : (
             <>
               <NavbarItem className='hidden lg:flex'>
                 <Link href="/signin">Login</Link>
@@ -54,6 +60,7 @@ export default function Header() {
         {/* Theme switcher toggle */}
         <NavbarItem>
           <Tooltip content={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} showArrow={true}>
+            {/* Wrapper around ThemeSwitcher required for tooltip to work */}
             <div>
               <ThemeSwitcher />
             </div>

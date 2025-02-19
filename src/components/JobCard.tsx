@@ -14,12 +14,13 @@ export default function JobCard({data}: {data: Job}) {
   const bookmarks = useSelector((state: RootState) => state.data.bookmarks);
   const dispatch = useDispatch();
 
-
-  const handleToggleBookmark = (id: string) => {
+  // Add/remove job to bookmarks
+  function handleToggleBookmark (id: string) {
     if (isBookmark(id)) dispatch(removeBookmark(id));
     else dispatch(addBookmark(id));
   }
 
+  // true/false check if job has been bookmarked
   const isBookmark = (id: string) => bookmarks.includes(id);
 
   return (

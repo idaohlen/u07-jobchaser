@@ -72,7 +72,7 @@ export default function Page() {
     loadJobs();
   }, []);
 
-  // Apply search query when the contents of activeFilters change
+  // Apply search query when the contents of activeFilters change or query/jobs change
   useEffect(() => handleSearch(query), [query, jobs, activeFilters]);
 
   // Check if a term matches any of the searchable items
@@ -102,13 +102,16 @@ export default function Page() {
     setCurrentPage(1);
   }
 
-  function handleChangeFilter(keys: Set<React.Key>) {
+  // Update active filters
+  function handleChangeFilter(keys: 'all' | Set<React.Key>) {
     const filters = Array.from(keys).map(key => key.toString().split(':')[1]);
     dispatch(setFilters(filters));
   };
 
+  // Clear filters
   const handleClearFilters = () => dispatch(clearFilters());
 
+  // Set new current page
   const handleChangePage = (page: number) => setCurrentPage(page);
 
   const filterPresets: FilterPresets = {

@@ -22,7 +22,8 @@ export default function Page() {
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.users.users);
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  // Submit login form
+  const onSubmit: SubmitHandler<Inputs> = (data: Inputs) => {
     console.log(data);
     const user = users.find(user => user.email === data.email && user.password === data.password);
     if (user) {

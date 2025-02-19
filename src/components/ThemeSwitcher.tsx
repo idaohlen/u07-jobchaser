@@ -7,9 +7,8 @@ import { Icon } from '@iconify/react';
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
 
-  const handleToggle = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
-  };
+  // Toggle between light/dark theme
+  const handleToggle = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   return (
     <Switch
