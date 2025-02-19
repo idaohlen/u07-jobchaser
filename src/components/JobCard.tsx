@@ -1,9 +1,10 @@
 'use client';
 
 import { useDispatch, useSelector } from 'react-redux';
-
 import { RootState } from '@/store/rootReducer';
 import { addBookmark, removeBookmark } from '@/store/slices/dataSlice';
+
+import { formatDistanceToNow } from 'date-fns';
 
 import Job from '../models/Job';
 
@@ -49,11 +50,13 @@ export default function JobCard({data}: {data: Job}) {
 
     </CardHeader>
     <Divider/>
-    <CardFooter className='flex justify-between'>
+    <CardFooter className='flex justify-end'>
       {/* <div className='flex gap-2'>
         {data.tags.map(tag => <Chip key={data.id + tag} size='sm' variant='bordered'>{tag}</Chip>)}
       </div> */}
-      <div className='text-xs text-slate-400 dark:text-slate-600'>{data.publication_date}</div>
+      <div className='text-xs text-slate-400 dark:text-slate-600'>
+        { formatDistanceToNow(new Date(data.publication_date), { addSuffix: true }) }
+        </div>
     </CardFooter>
   </Card>
   )
