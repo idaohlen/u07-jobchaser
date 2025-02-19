@@ -71,7 +71,7 @@ export default function BookmarkedJobs() {
                 {bookmarkedJobs.map((job) => (
                   <DropdownItem
                     key={job.id}
-                    textValue={`${job.position} at ${job.company}`}
+                    textValue={`${job.title} at ${job.company_name}`}
                     endContent={
                       <Button
                         isIconOnly
@@ -81,13 +81,13 @@ export default function BookmarkedJobs() {
                         onPress={() => handleRemoveBookmark(job.id.toString())}
                       >
                         <Icon
-                          icon='material-symbols:bookmark'
+                          icon='material-symbols:cancel-rounded'
                           className='text-xl flex-shrink-0 text-primary'
                         />
                       </Button>
                     }
                   >
-                    {job.position} at {job.company}
+                    {job.title} at {job.company_name}
                   </DropdownItem>
                 ))}
               </DropdownSection>
