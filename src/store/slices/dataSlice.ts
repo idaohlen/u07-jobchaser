@@ -5,7 +5,7 @@ interface DataState {
 }
 
 const initialState: DataState = {
-  bookmarks: []
+  bookmarks: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('bookmarks') || '[]') : []
 }
 
 const dataSlice = createSlice({
@@ -14,9 +14,11 @@ const dataSlice = createSlice({
   reducers: {
     addBookmark(state, action: PayloadAction<string>) {
       state.bookmarks = [...state.bookmarks, action.payload];
+      localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
     },
     removeBookmark(state, action: PayloadAction<string>) {
       state.bookmarks = state.bookmarks.filter(bookmark => bookmark !== action.payload);
+      localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
     }
   }
 });

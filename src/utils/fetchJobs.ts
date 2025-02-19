@@ -1,4 +1,6 @@
 import Job from "@/models/Job";
+import { removeBookmark } from "@/store/slices/dataSlice";
+import store from "@/store";
 
 export async function fetchJobs() {
   try {
@@ -15,7 +17,18 @@ export async function fetchJobs() {
 export async function fetchBookmarkedJobs(bookmarkedIds: string[]) {
   try {
     const jobs = await fetchJobs();
-    return jobs.filter((job: Job) => bookmarkedIds.includes(job.id.toString()));
+    const bookmarkedJobs = jobs.filter((job: Job) => bookmarkedIds.includes(job.id.toString()));
+
+    // Remove invalid bookmarks
+    const validBookmarkedIds = bookmarkedJobs.map((job: Job) => job.id.toString());
+    
+    bookmarkedIds.forEach(id => {
+      if (!validBookmarkedIds.includes(id)) {
+        store.dispatch(removeBookmark(id));
+      }
+    });
+
+    return bookmarkedJobs;
   } catch (error) {
     console.error('Error fetching bookmarked jobs:', error);
     throw error;
