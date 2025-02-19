@@ -32,7 +32,6 @@ export default function AccountDropdown() {
       authState: 'loggedIn',
       action() {
         dispatch(logout());
-        router.push('/signin');
       }
     },
     {

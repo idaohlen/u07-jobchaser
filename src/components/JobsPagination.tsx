@@ -5,6 +5,7 @@ import { Pagination } from '@heroui/react';
 
 interface JobsPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   totalPages: number;
+  currentPage: number;
   initialPage?: number;
   onPageChange: (page: number) => void;
 }
@@ -12,6 +13,7 @@ interface JobsPaginationProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function JobsPagination(
   {totalPages,
     initialPage = 1,
+    currentPage,
     onPageChange,
     ...props
   }: JobsPaginationProps) {
@@ -22,6 +24,7 @@ export default function JobsPagination(
         isCompact
         showControls
         initialPage={initialPage}
+        page={currentPage}
         total={totalPages}
         onChange={(page: number) => onPageChange(page)}
       />

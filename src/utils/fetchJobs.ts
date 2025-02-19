@@ -4,10 +4,11 @@ import store from "@/store";
 
 export async function fetchJobs() {
   try {
-    const response = await fetch('/data/jobs.json');
-    // const response = await fetch('https://api.example.com/jobs');
+    // const response = await fetch('/data/jobs.json');
+    const response = await fetch('https://remotive.com/api/remote-jobs');
     const data = await response.json();
-    return data;
+    // return data;
+    return data.jobs;
   } catch (error) {
     console.error('Error fetching jobs:', error);
     throw error;

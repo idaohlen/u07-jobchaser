@@ -64,13 +64,13 @@ export default function Page() {
   function matchesTerm(job: Job, term: string) {
     const words = term.toLowerCase().split(' ');
     return words.every(word =>
-      job.position.toLowerCase().includes(word) ||
-      job.company.toLowerCase().includes(word) ||
-      job.role.toLowerCase().includes(word) ||
-      job.contract.toLowerCase().includes(word) ||
-      job.location.toLowerCase().includes(word) ||
-      job.languages.some(language => language.toLowerCase().includes(word)) ||
-      job.tools.some(tool => tool.toLowerCase().includes(word))
+      job.title.toLowerCase().includes(word) ||
+      job.description.toLowerCase().includes(word) ||
+      job.category.toLowerCase().includes(word) ||
+      job.company_name.toLowerCase().includes(word) ||
+      job.candidate_required_location.toLowerCase().includes(word) ||
+      job.job_type.toLowerCase().includes(word) ||
+      job.tags.some(language => language.toLowerCase().includes(word))
     );
   }
 
@@ -138,6 +138,7 @@ export default function Page() {
               <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
               <Pagination
                 totalPages={totalPages}
+                currentPage={currentPage}
                 onPageChange={handleChangePage}
               />
             </div>
@@ -149,6 +150,7 @@ export default function Page() {
             <Pagination
               className='flex my-8 justify-end'
               totalPages={totalPages}
+              currentPage={currentPage}
               onPageChange={handleChangePage}
             />
           }

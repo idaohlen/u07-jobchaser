@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/rootReducer';
 import { login } from '@/store/slices/authSlice';
+import { useRouter } from 'next/navigation';
 
 import { Input, Button } from '@heroui/react';
 
@@ -19,6 +20,7 @@ export default function Page() {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const router = useRouter();
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.users.users);
 
@@ -32,6 +34,7 @@ export default function Page() {
         email: user.email,
         name: user.name
       }));
+      router.push('/jobs');
     } else {
       console.log('Invalid credentials');
     }

@@ -27,17 +27,17 @@ export default function JobCard({data}: {data: Job}) {
     <Card key={data.id} className='w-full' radius='sm'>
     <CardHeader className='flex gap-3 items-center'>
       <Image
-        src={data.logo}
+        src={data.company_logo}
         height={40}
         width={40}
         radius='sm'
-        alt={`Company logo for ${data.company}`}
+        alt={`Company logo for ${data.company_name}`}
       />
       <div className='flex flex-col text-left'>
-        <p className='text-md font-semibold'>{data.position}</p>
-        <p className='text-small text-default-00'>{data.company}</p>
+        <p className='text-md font-semibold'>{data.category}</p>
+        <p className='text-small text-default-00'>{data.company_name}</p>
       </div>
-      <div className='ml-auto text-xs text-slate-800 dark:text-slate-400'>{data.location} ⋅ {data.contract}</div>
+      <div className='ml-auto text-xs text-slate-800 dark:text-slate-400'>{data.candidate_required_location} ⋅ {data.job_type.replace('_', ' ')}</div>
       <Button isIconOnly aria-label='Add to bookmarks' variant='light' size='sm'
         onPress={() => handleToggleBookmark(data.id.toString())}
       >
@@ -50,11 +50,10 @@ export default function JobCard({data}: {data: Job}) {
     </CardHeader>
     <Divider/>
     <CardFooter className='flex justify-between'>
-      <div className='flex gap-2'>
-        {data.languages.map(lang => <Chip key={data.id + lang} size='sm' variant='bordered'>{lang}</Chip>)}
-        {data.tools.map(tool => <Chip key={tool + data.id} size='sm'>{tool}</Chip>)}
-      </div>
-      <div className='text-xs text-slate-400 dark:text-slate-600'>{data.postedAt}</div>
+      {/* <div className='flex gap-2'>
+        {data.tags.map(tag => <Chip key={data.id + tag} size='sm' variant='bordered'>{tag}</Chip>)}
+      </div> */}
+      <div className='text-xs text-slate-400 dark:text-slate-600'>{data.publication_date}</div>
     </CardFooter>
   </Card>
   )
