@@ -36,13 +36,25 @@ export default function SearchBar() {
           value={localQuery}
           onChange={handleQueryChange}
           type='text'
+          endContent={
+            <Button
+              isIconOnly 
+              variant='light'
+              color='primary'
+              type='submit'
+              style={{
+                marginRight: '-.75rem',
+                borderTopLeftRadius: '0px',
+                borderBottomLeftRadius: '0px'
+              }}
+            >
+              <Icon
+                icon='material-symbols:search-rounded'
+                className='text-2xl'
+              />
+            </Button>}
         />
-        <Button isIconOnly type='submit' color='primary'>
-          <Icon
-            icon='material-symbols:search-rounded'
-            className='text-2xl pointer-events-none flex-shrink-0'
-          />
-        </Button>
+
       </form>
     </>
   )
