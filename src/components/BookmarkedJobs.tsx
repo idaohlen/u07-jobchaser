@@ -81,7 +81,7 @@ export default function BookmarkedJobs() {
                         onPress={() => handleRemoveBookmark(job.id.toString())}
                       >
                         <Icon
-                          icon='material-symbols:cancel-rounded'
+                          icon='material-symbols:cancel-outline-rounded'
                           className='text-xl flex-shrink-0 text-primary'
                         />
                       </Button>
