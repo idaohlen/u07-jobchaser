@@ -42,7 +42,7 @@ export default function JobDetailsModal({isOpen, onClose, job}: JobDetailsModalP
           </Card>
         </ModalHeader>
         <ModalBody>
-          <div className='text-sm' dangerouslySetInnerHTML={{ __html: sanitizedDescription }} />
+          <div className='prose text-sm' dangerouslySetInnerHTML={{ __html: sanitizedDescription }} />
         </ModalBody>
         <ModalFooter>
           <Button onPress={onClose}>Close</Button>
