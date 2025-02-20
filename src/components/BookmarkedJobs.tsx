@@ -12,10 +12,14 @@ import { fetchBookmarkedJobs } from '@/utils/fetchJobs';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection, Tooltip, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
 
+import JobDetailsModal from '@/components/JobDetailsModal';
+
 export default function BookmarkedJobs() {
   const bookmarks = useSelector((state: RootState) => state.data.bookmarks);
   const [loading, setLoading] = useState(true);
   const [bookmarkedJobs, setBookmarkedJobs] = useState<Job[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentJob, setCurrentJob] = useState<Job | null>(null);
 
   const dispatch = useDispatch();
 
@@ -41,7 +45,19 @@ export default function BookmarkedJobs() {
     dispatch(removeBookmark(id));
   }
 
+  // Handle job details modal
+  function handleOpenModal(job: Job) {
+    setCurrentJob(job);
+    setIsModalOpen(true);
+  }
+
+  function handleCloseModal() {
+    setIsModalOpen(false);
+    setCurrentJob(null);
+  }
+
   return (
+    <>
     <Dropdown>
       <DropdownTrigger>
           <Button isIconOnly variant='flat' aria-label='Bookmarked Jobs'>
@@ -72,6 +88,8 @@ export default function BookmarkedJobs() {
                   <DropdownItem
                     key={job.id}
                     textValue={`${job.title} at ${job.company_name}`}
+                    onPress={() => handleOpenModal(job)}
+                    closeOnSelect
                     endContent={
                       <Button
                         isIconOnly
@@ -96,5 +114,7 @@ export default function BookmarkedJobs() {
         )}
       </DropdownMenu>
     </Dropdown>
+    <JobDetailsModal isOpen={isModalOpen} onClose={handleCloseModal} job={currentJob} />
+    </>
   );
 }

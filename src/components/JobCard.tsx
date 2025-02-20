@@ -9,7 +9,7 @@ import { formatDistanceToNow } from 'date-fns';
 
 import Job from '@/models/Job';
 
-import { Card, CardHeader, CardFooter, Divider, Image, Chip, Button } from '@heroui/react';
+import { Card, CardHeader, CardFooter, Divider, Image, Button } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import JobDetailsModal from '@/components/JobDetailsModal';
 
