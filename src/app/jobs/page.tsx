@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/rootReducer';
-import { setFilters, clearFilters } from '@/store/slices/searchSlice';
+import { setFilter, clearFilters } from '@/store/slices/searchSlice';
 
 // Models
 import Job from '@/models/Job';
-import FilterPresets from '@/models/FilterPresets';
 
 // Components
-import { Button, Select, SelectItem, SelectSection } from '@heroui/react';
+import { Button, Tooltip, Autocomplete, AutocompleteItem } from '@heroui/react';
+import { Icon } from '@iconify/react';
 
 import JobsList from '@/components/JobsList';
 import Pagination from '@/components/JobsPagination';
@@ -21,7 +21,7 @@ import { fetchJobs } from '@/utils/fetchJobs';
 export default function Page() {
   // Redux state
   const query = useSelector((state: RootState) => state.search.query);
-  const activeFilters = useSelector((state: RootState) => state.search.filters);
+  const filters = useSelector((state: RootState) => state.search.filters);
   const dispatch = useDispatch();
 
   // State
@@ -30,22 +30,71 @@ export default function Page() {
   const [filteredJobs, setFilteredJobs] = useState(jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [selectedFilters, setSelectedFilters] = useState({
+    category: null as string | null,
+    candidate_required_location: null as string | null,
+    job_type: null as string | null,
+  });
+
+  const [uniqueFilters, setUniqueFilters] = useState({
+    locations: [] as { label: string }[],
+    jobTypes: [] as { label: string }[],
+    categories: [] as { label: string }[],
+  });
+
   // Pagination variables
-  const JOBS_PER_PAGE = 8;
+  const JOBS_PER_PAGE = 10;
   const totalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
   const startIndex = (currentPage - 1) * JOBS_PER_PAGE;
   const endIndex = startIndex + JOBS_PER_PAGE;
 
+  const filterConfig = [
+    { 
+      key: 'category', 
+      label: 'Position', 
+      items: uniqueFilters.categories, 
+      selectedKey: selectedFilters.category, 
+      set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, categories: items })) 
+    },
+    { 
+      key: 'candidate_required_location', 
+      label: 'Location requirements', 
+      items: uniqueFilters.locations, 
+      selectedKey: selectedFilters.candidate_required_location, 
+      set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, locations: items })) 
+    },
+    { 
+      key: 'job_type', 
+      label: 'Type', 
+      items: uniqueFilters.jobTypes, 
+      selectedKey: selectedFilters.job_type, 
+      set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, jobTypes: items })), 
+      className: 'sm:max-w-[160px]' 
+    }
+  ];
+
   // Jobs for current page
   const currentJobs = filteredJobs.slice(startIndex, endIndex);
 
-  // Apply search query on mount
+  // Fetch jobs, generate dynamic filter options and apply search query and on mount
   useEffect(() => {
     async function loadJobs() {
       setLoading(true);
       try {
         const data = await fetchJobs();
         setJobs(data);
+        
+        filterConfig.forEach(filter => {
+          const items = Array
+            .from(new Set(data
+              .flatMap((job: Job) => (job[filter.key as keyof Job] as string).split(', '))
+            ))
+            .sort()
+            .map(item => ({ label: item as string }));
+          
+          filter.set(items);
+        });
+
         setFilteredJobs(data);
       } catch (error) {
         console.error('Error loading jobs:', error);
@@ -58,7 +107,7 @@ export default function Page() {
   }, []);
 
   // Apply search query when the contents of activeFilters change or query/jobs change
-  useEffect(() => handleSearch(query), [query, jobs, activeFilters]);
+  useEffect(() => handleSearch(query), [query, jobs, filters]);
 
   // Check if a term matches any of the searchable items
   function matchesTerm(job: Job, term: string) {
@@ -77,10 +126,16 @@ export default function Page() {
   // Execute search
   function handleSearch(searchQuery: string) {
     const term = searchQuery.toLowerCase();
+
     const filtered = jobs.filter((job: Job) => {
       const matchesSearchTerm = matchesTerm(job, term);
-      const matchesFilters = activeFilters.length === 0 || activeFilters.some(filter => matchesTerm(job, filter));
-      
+      const matchesFilters = Object.keys(filters).every(filterType => {
+        const filterValue = filters[filterType as keyof typeof filters];
+        if (!filterValue) return true;
+        const jobValue = job[filterType as keyof Job];
+        return typeof jobValue === 'string' && jobValue.toLowerCase().includes(filterValue.toLowerCase());
+      });
+
       return matchesSearchTerm && matchesFilters;
     });
     setFilteredJobs(filtered);
@@ -88,74 +143,81 @@ export default function Page() {
   }
 
   // Update active filters
-  function handleChangeFilter(keys: 'all' | Set<React.Key>) {
-    const filters = Array.from(keys).map(key => key.toString().split(':')[1]);
-    dispatch(setFilters(filters));
-  };
+  function handleChangeFilter(type: keyof typeof filters, value: string) {
+    dispatch(setFilter({ type, value }));
+    setSelectedFilters(prev => ({ ...prev, [type]: value }));
+  }
 
   // Clear filters
-  const handleClearFilters = () => dispatch(clearFilters());
+  function handleClearFilters() {
+    dispatch(clearFilters());
+    setSelectedFilters({
+      category: null,
+      candidate_required_location: null,
+      job_type: null,
+    });
+  }
 
   // Set new current page
   const handleChangePage = (page: number) => setCurrentPage(page);
 
-  const filterPresets: FilterPresets = {
-    roles: ["Frontend", "Backend", "Fullstack"],
-    level: ["Junior", "Midweight", "Senior"],
-    contract: ["Full Time", "Part Time"],
-    location: ["Remote", "Worldwide", "USA"],
-    languages: ["Python", "Javascript", "CSS", "Ruby"],
-    tools: ["React","Vue", "Sass", "Django"]
-  }
-
   return (
-    <div className='page max-w-[600px] mx-auto mt-4 px-10 pb-20'>
-      {/* Job filter presets */}
-      <div className='flex items-center gap-2 mt-2'>
-        <Select
-          placeholder='Filters'
-          aria-label='Filter jobs'
-          selectionMode='multiple'
-          selectedKeys={new Set(activeFilters.map(filter => `filter:${filter}`))}
-          onSelectionChange={handleChangeFilter}
-        >
-          {Object.entries(filterPresets).map(([key, values]) => (
-            <SelectSection showDivider title={key} key={key}>
-              {values.map((query: string) => <SelectItem key={`filter:${query}`}>{query}</SelectItem>)}
-            </SelectSection>
-          ))}
-        </Select>
-        <Button onPress={handleClearFilters} variant='light'>
-          Clear filters
-        </Button>
+    <div className='page max-w-[800px] mx-auto mt-6 px-10 pb-20'>
+
+      {/* Job filters */}
+      <div className='flex flex-col sm:flex-row w-full gap-2 items-center justify-center'>
+        {filterConfig.map(filter => (
+          <Autocomplete
+            key={filter.key}
+            size='sm'
+            defaultItems={filter.items}
+            selectedKey={filter.selectedKey}
+            label={filter.label}
+            className={filter.className}
+            onSelectionChange={(value) => {
+              handleChangeFilter(filter.key as keyof typeof filters, value ? value.toString() : '');
+            }}
+          >
+            {(item) => <AutocompleteItem key={item.label}>{item.label.replace('_', ' ')}</AutocompleteItem>}
+          </Autocomplete>
+        ))}
+
+        <Tooltip content='Clear all filters' placement='bottom' showArrow={true}>
+          <Button isIconOnly onPress={handleClearFilters} variant='flat' size='lg' className='max-sm:w-full'>
+            <Icon icon="material-symbols:cancel-outline-rounded" className='text-2xl' />
+          </Button>
+        </Tooltip>
+
       </div>
 
-      {/* Display jobs and pagination */}
-      {loading ? (<p>Loading jobs...</p>) : (
-        <>
-          {currentJobs.length > 0 &&
-            <div className='flex justify-between items-end mt-8 mb-6'>
-              <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
+      <div className=' max-w-[600px] m-auto'>
+        {/* Display jobs and pagination */}
+        {loading ? (<p className='mt-4'>Loading jobs...</p>) : (
+          <>
+            {currentJobs.length > 0 &&
+              <div className='flex justify-between items-end mt-8 mb-6'>
+                <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
+                <Pagination
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  onPageChange={handleChangePage}
+                />
+              </div>
+            }
+
+            <JobsList data={currentJobs} />
+
+            {currentJobs.length > 0 &&
               <Pagination
+                className='flex my-8 justify-end'
                 totalPages={totalPages}
                 currentPage={currentPage}
                 onPageChange={handleChangePage}
               />
-            </div>
-          }
-
-          <JobsList data={currentJobs} />
-
-          {currentJobs.length > 0 &&
-            <Pagination
-              className='flex my-8 justify-end'
-              totalPages={totalPages}
-              currentPage={currentPage}
-              onPageChange={handleChangePage}
-            />
-          }
-        </>
-      )}
+            }
+          </>
+        )}
+      </div>
     </div>
   )
 }

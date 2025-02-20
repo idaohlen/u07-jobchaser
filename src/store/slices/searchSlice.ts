@@ -2,12 +2,24 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SearchState {
   query: string;
-  filters: string[];
+  filters: JobFilters;
 }
 
 const initialState: SearchState = {
   query: '',
-  filters: []
+  filters: {
+    candidate_required_location: '',
+    job_type: '',
+    tags: '',
+    category: '',
+  }
+}
+
+interface JobFilters {
+  candidate_required_location: string;
+  job_type: string;
+  tags: string;
+  category: string;
 }
 
 const searchSlice = createSlice({
@@ -17,20 +29,20 @@ const searchSlice = createSlice({
     setSearchQuery(state, action: PayloadAction<string>) {
       state.query = action.payload;
     },
-    setFilters(state, action: PayloadAction<string[]>) {
-      state.filters = action.payload;
+    setFilter(state, action: PayloadAction<{ type: keyof JobFilters, value: string }>) {
+      state.filters[action.payload.type] = action.payload.value;
     },
     clearFilters(state) {
-      state.filters = [];
+      state.filters = initialState.filters;
     },
-    addFilter(state, action: PayloadAction<string>) {
-      state.filters = [...state.filters, action.payload];
-    },
-    removeFilter(state, action: PayloadAction<string>) {
-      state.filters = state.filters.filter(filter => filter !== action.payload);
-    }
+    // addFilter(state, action: PayloadAction<{ type: keyof SearchState['filters'], value: string }>) {
+    //   state.filters[action.payload.type] = [...state.filters[action.payload.type], action.payload.value];
+    // },
+    // removeFilter(state, action: PayloadAction<{ type: keyof SearchState['filters'], value: string }>) {
+    //   state.filters[action.payload.type] = state.filters[action.payload.type].filter(filter => filter !== action.payload.value);
+    // }
   }
 });
 
-export const { setSearchQuery, addFilter, removeFilter, setFilters, clearFilters } = searchSlice.actions;
+export const { setSearchQuery, setFilter, clearFilters } = searchSlice.actions;
 export default searchSlice.reducer;

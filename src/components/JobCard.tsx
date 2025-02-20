@@ -62,10 +62,7 @@ export default function JobCard({data}: {data: Job}) {
         <Divider/>
         <CardFooter className='flex justify-between gap-4'>
         <div className='text-xs text-slate-800 dark:text-slate-400'>{data.candidate_required_location} ⋅ {data.job_type.replace('_', ' ')}</div>
-          {/* <div className='flex gap-2'>
-            {data.tags.map(tag => <Chip key={data.id + tag} size='sm' variant='bordered'>{tag}</Chip>)}
-          </div> */}
-            <Button variant='ghost' size='sm' onPress={handleOpenModal}>Read more</Button>
+          <Button variant='ghost' size='sm' onPress={handleOpenModal}>Read more</Button>
         </CardFooter>
       </Card>
 
