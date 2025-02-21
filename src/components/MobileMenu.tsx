@@ -19,6 +19,13 @@ export default function MobileMenu({closeMenu}: {closeMenu: () => void}) {
       }
     },
     {
+      label: 'My Account',
+      authState: 'loggedIn',
+      action() {
+        router.push('/account');
+      }
+    },
+    {
       label: 'Log In',
       authState: 'loggedOut',
       action() {

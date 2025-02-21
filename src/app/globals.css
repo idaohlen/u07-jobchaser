@@ -27,6 +27,10 @@ body {
   padding-top: 4rem;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 @layer base {
   h1 {
     @apply text-2xl;

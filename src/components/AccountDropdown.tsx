@@ -28,6 +28,13 @@ export default function AccountDropdown() {
 
   const menu = [
     {
+      label: 'My Account',
+      authState: 'loggedIn',
+      action() {
+        router.push('/account');
+      }
+    },
+    {
       label: 'Log Out',
       authState: 'loggedIn',
       action() {
@@ -38,7 +45,7 @@ export default function AccountDropdown() {
       label: 'Log In',
       authState: 'loggedOut',
       action() {
-        router.push('/signin')
+        router.push('/signin');
       }
     },
     {

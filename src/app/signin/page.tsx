@@ -6,7 +6,7 @@ import { RootState } from '@/store/rootReducer';
 import { login } from '@/store/slices/authSlice';
 import { useRouter } from 'next/navigation';
 
-import { Input, Button } from '@heroui/react';
+import { Input, Button, Alert } from '@heroui/react';
 
 interface Inputs {
   email: string;
@@ -34,7 +34,7 @@ export default function Page() {
         email: user.email,
         name: user.name
       }));
-      router.push('/jobs');
+      router.push('/account');
     } else {
       console.log('Invalid credentials');
     }
@@ -42,7 +42,7 @@ export default function Page() {
 
   return (
     <div className='page max-w-[400px] mx-auto mt-12 pb-20'>
-      <h1>Login</h1>
+      <h1>Log In</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-4 mt-5'>
 
@@ -72,6 +72,18 @@ export default function Page() {
         />
 
         <Button type='submit' color='primary' className=' self-end'>Login</Button>
+
+        <Alert
+        color='primary'
+        title='Log in using one of the following:'
+        description={
+          (
+            <ul className='list-disc ml-4 m-2'>
+              <li>demo@demo.demo, demo1234</li>
+              <li>admin@demo.demo, admin1234</li>
+            </ul>
+          )}
+        />
       </form>
     </div>
   )

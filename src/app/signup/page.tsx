@@ -22,7 +22,7 @@ export default function Page() {
 
   return (
     <div className='page max-w-[400px] mx-auto mt-12 pb-20'>
-      <h1>Sign up</h1>
+      <h1>Sign Up</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-4 mt-5'>
 
