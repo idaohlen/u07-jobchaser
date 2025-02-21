@@ -1,3 +1,15 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/c1G8BKTh)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17890440&assignment_repo_type=AssignmentRepo)
 # u07-individuell-uppgift-JobChaser
+
+## Använda bibliotek och resurser
+- [React 19](https://react.dev) med TypeScript
+- [Next.js](https://nextjs.org)
+- [Redux Toolkit](https://redux-toolkit.js.org)
+- [TailwindCSS 3.4](https://v3.tailwindcss.com)
+- [HeroUI](https://www.heroui.com): Komponentbibliotek.
+- [react-hook-form](https://react-hook-form.com): Hantering av formulär.
+- [framer-motion](https://github.com/motiondivision/motion): Animationer och transitions.
+- [DOMPurify](https://github.com/cure53/DOMPurify): Se till att HTML-innehåll från tredjeparts API inte är skadlig.
+- [date-fns](https://date-fns.org): Formatering av datum och tid.
+- [Iconify/React](https://iconify.design/docs/icon-components/react/): Används för att hämta och använda ikoner.
+- [next-themes](https://github.com/pacocoursey/next-themes): Förbättrad integration mellan Next.js och TailwindCSS för att hantera teman.
+- [react-spinners](https://github.com/davidhu2000/react-spinners): Animerad loader som visas medan API-data hämtas.
