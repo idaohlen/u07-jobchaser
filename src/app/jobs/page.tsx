@@ -30,12 +30,6 @@ export default function Page() {
   const [filteredJobs, setFilteredJobs] = useState(jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [selectedFilters, setSelectedFilters] = useState({
-    category: null as string | null,
-    candidate_required_location: null as string | null,
-    job_type: null as string | null,
-  });
-
   const [uniqueFilters, setUniqueFilters] = useState({
     locations: [] as { label: string }[],
     jobTypes: [] as { label: string }[],
@@ -53,21 +47,21 @@ export default function Page() {
       key: 'category', 
       label: 'Position', 
       items: uniqueFilters.categories, 
-      selectedKey: selectedFilters.category, 
+      selectedKey: filters.category, 
       set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, categories: items })) 
     },
     { 
       key: 'candidate_required_location', 
       label: 'Location requirements', 
       items: uniqueFilters.locations, 
-      selectedKey: selectedFilters.candidate_required_location, 
+      selectedKey: filters.candidate_required_location, 
       set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, locations: items })) 
     },
     { 
       key: 'job_type', 
       label: 'Type', 
       items: uniqueFilters.jobTypes, 
-      selectedKey: selectedFilters.job_type, 
+      selectedKey: filters.job_type, 
       set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, jobTypes: items })), 
       className: 'sm:max-w-[160px]' 
     }
@@ -145,17 +139,11 @@ export default function Page() {
   // Update active filters
   function handleChangeFilter(type: keyof typeof filters, value: string) {
     dispatch(setFilter({ type, value }));
-    setSelectedFilters(prev => ({ ...prev, [type]: value }));
   }
 
   // Clear filters
   function handleClearFilters() {
     dispatch(clearFilters());
-    setSelectedFilters({
-      category: null,
-      candidate_required_location: null,
-      job_type: null,
-    });
   }
 
   // Set new current page

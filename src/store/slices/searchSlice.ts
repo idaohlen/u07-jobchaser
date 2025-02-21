@@ -8,18 +8,16 @@ interface SearchState {
 const initialState: SearchState = {
   query: '',
   filters: {
+    category: '',
     candidate_required_location: '',
     job_type: '',
-    tags: '',
-    category: '',
   }
 }
 
 interface JobFilters {
+  category: string;
   candidate_required_location: string;
   job_type: string;
-  tags: string;
-  category: string;
 }
 
 const searchSlice = createSlice({
