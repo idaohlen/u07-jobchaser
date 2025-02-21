@@ -30,7 +30,7 @@ export default function Page() {
   const [filteredJobs, setFilteredJobs] = useState(jobs);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [uniqueFilters, setUniqueFilters] = useState({
+  const [uniqueFilterOptions, setuniqueFilterOptions] = useState({
     locations: [] as { label: string }[],
     jobTypes: [] as { label: string }[],
     categories: [] as { label: string }[],
@@ -46,24 +46,24 @@ export default function Page() {
     { 
       key: 'category', 
       label: 'Position', 
-      items: uniqueFilters.categories, 
+      items: uniqueFilterOptions.categories, 
       selectedKey: filters.category, 
-      set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, categories: items })) 
+      set: (items: { label: string }[]) => setuniqueFilterOptions(prev => ({ ...prev, categories: items })) 
     },
     { 
       key: 'candidate_required_location', 
       label: 'Location requirements', 
-      items: uniqueFilters.locations, 
+      items: uniqueFilterOptions.locations, 
       selectedKey: filters.candidate_required_location, 
-      set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, locations: items })) 
+      set: (items: { label: string }[]) => setuniqueFilterOptions(prev => ({ ...prev, locations: items })) 
     },
     { 
       key: 'job_type', 
       label: 'Type', 
-      items: uniqueFilters.jobTypes, 
+      items: uniqueFilterOptions.jobTypes, 
       selectedKey: filters.job_type, 
-      set: (items: { label: string }[]) => setUniqueFilters(prev => ({ ...prev, jobTypes: items })), 
-      className: 'sm:max-w-[160px]' 
+      set: (items: { label: string }[]) => setuniqueFilterOptions(prev => ({ ...prev, jobTypes: items })), 
+      className: 'sm:max-w-[160px]'
     }
   ];
 
