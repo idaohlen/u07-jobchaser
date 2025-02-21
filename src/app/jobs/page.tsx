@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/rootReducer';
 import { setFilter, clearFilters } from '@/store/slices/searchSlice';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Models
 import Job from '@/models/Job';
@@ -70,7 +71,7 @@ export default function Page() {
   // Jobs for current page
   const currentJobs = filteredJobs.slice(startIndex, endIndex);
 
-  // Fetch jobs, generate dynamic filter options and apply search query and on mount
+  // Fetch jobs, generate dynamic filter options and apply search query on mount
   useEffect(() => {
     async function loadJobs() {
       setLoading(true);
@@ -192,8 +193,17 @@ export default function Page() {
                 />
               </div>
             }
-
-            <JobsList data={currentJobs} />
+            <AnimatePresence mode='wait'>
+              <motion.div
+                key={`${currentPage}-${JSON.stringify(filters)}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                <JobsList data={currentJobs} />
+              </motion.div>
+            </AnimatePresence>
 
             {currentJobs.length > 0 &&
               <Pagination
