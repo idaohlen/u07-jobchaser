@@ -16,6 +16,7 @@ import { Icon } from '@iconify/react';
 
 import JobsList from '@/components/JobsList';
 import Pagination from '@/components/JobsPagination';
+import SearchBar from '@/components/SearchBar';
 
 // Utils
 import { fetchJobs } from '@/utils/fetchJobs';
@@ -153,7 +154,9 @@ export default function Page() {
 
   return (
     <div className='page max-w-[800px] mx-auto mt-6 px-10 pb-20'>
-
+      <div className='flex sm:hidden mb-5'>
+        <SearchBar />
+      </div>
       {/* Job filters */}
       <div className='flex flex-col sm:flex-row w-full gap-2 items-center justify-center'>
         {filterConfig.map(filter => (
@@ -190,8 +193,8 @@ export default function Page() {
         ) : (
           <>
             {currentJobs.length > 0 &&
-              <div className='flex justify-between items-end mt-8 mb-6'>
-                <p className='text-sm text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
+              <div className='flex flex-col sm:flex-row justify-between items-center sm:items-end mt-8 mb-6'>
+                <p className='text-sm max-sm:pb-6 text-gray-600 dark:text-gray-400'>{filteredJobs.length} jobs found</p>
                 <Pagination
                   totalPages={totalPages}
                   currentPage={currentPage}

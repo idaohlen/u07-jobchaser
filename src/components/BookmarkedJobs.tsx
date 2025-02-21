@@ -72,7 +72,7 @@ export default function BookmarkedJobs() {
       <DropdownMenu
         aria-label='Bookmarked Jobs'
         closeOnSelect={false}
-        style={{ maxHeight: '200px', overflowY: 'auto' }} 
+        style={{ maxHeight: '300px', overflowY: 'auto' }} 
       >
       {/* Display loading text while bookmarks are being fetched */}
       {loading ? (

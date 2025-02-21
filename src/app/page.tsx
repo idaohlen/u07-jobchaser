@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <div className='page min-h-screen bg-primary-600 dark:bg-gray-900 text-white flex flex-col justify-center items-center'>
-      <section className='text-center mb-12'>
+      <section className='text-center mb-12 p-8'>
         <h1 className='text-4xl font-bold mb-4'>Welcome to JobChaser</h1>
         <p className='text-lg text-gray-200 mb-8'>Your ultimate destination for finding your dream job. Search, apply, and get hired!</p>
           <form onSubmit={handleSearch} className='flex gap-2 w-full max-w-md mx-auto'>

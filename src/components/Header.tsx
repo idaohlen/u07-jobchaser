@@ -18,7 +18,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <Navbar isBordered className='fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-900' isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <Navbar isBordered className='fixed top-0 left-0 right-0 z-50 bg-white dark:bg-black' isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
       <NavbarMenuToggle
         aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         className="sm:hidden"
@@ -35,7 +35,7 @@ export default function Header() {
         </Button>
       </NavbarBrand>
 
-      <NavbarItem className='w-full'>
+      <NavbarItem className='w-full hidden sm:flex'>
           <SearchBar />
         </NavbarItem>
 

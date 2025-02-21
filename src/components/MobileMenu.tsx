@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { logout } from '@/store/slices/authSlice';
 
 import { NavbarMenu, NavbarMenuItem, Button } from "@heroui/react";
+import SearchBar from '@/components/SearchBar';
 
 export default function MobileMenu({closeMenu}: {closeMenu: () => void}) {
   const router = useRouter();
@@ -51,7 +52,8 @@ export default function MobileMenu({closeMenu}: {closeMenu: () => void}) {
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   return (
-    <NavbarMenu>
+    <NavbarMenu className='bg-white dark:bg-black'>
+      <SearchBar onSubmit={closeMenu} />
       {menu.map(item => {
         if (isAuthenticated && item.authState === 'loggedOut') return null;
         if (!isAuthenticated && item.authState === 'loggedIn') return null;
