@@ -7,12 +7,16 @@ import { ThemeProvider } from 'next-themes';
 import { Provider } from 'react-redux';
 import store from '@/store';
 import { HeroUIProvider } from '@heroui/react';
+import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
     <html lang='en' suppressHydrationWarning>
       <body>
@@ -21,9 +25,16 @@ export default function RootLayout({
             <ThemeProvider attribute='class' defaultTheme='light'> {/* next-themes */}
               <CustomThemeProvider>
                 <Header />
-                <main>
-                  {children}
-                </main>
+                <AnimatePresence>
+                  <motion.main
+                    key={pathname}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ ease: "easeInOut", duration: 0.5 }}
+                  >
+                    {children}
+                  </motion.main>
+                </AnimatePresence>
               </CustomThemeProvider>
             </ThemeProvider>
           </HeroUIProvider>
