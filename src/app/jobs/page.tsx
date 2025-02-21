@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/store/rootReducer';
 import { setFilter, clearFilters } from '@/store/slices/searchSlice';
 import { motion, AnimatePresence } from 'framer-motion';
+import { BarLoader } from 'react-spinners';
 
 // Models
 import Job from '@/models/Job';
@@ -181,7 +182,12 @@ export default function Page() {
 
       <div className=' max-w-[600px] m-auto'>
         {/* Display jobs and pagination */}
-        {loading ? (<p className='mt-4'>Loading jobs...</p>) : (
+        {loading ? (
+          <div className='flex flex-col justify-center items-center h-64'>
+            <p className='text-xl pb-8'>Loading Jobs</p>
+            <BarLoader height={8} width={160} color={"#123abc"} loading={loading} />
+          </div>
+        ) : (
           <>
             {currentJobs.length > 0 &&
               <div className='flex justify-between items-end mt-8 mb-6'>
