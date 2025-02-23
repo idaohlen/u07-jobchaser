@@ -1,5 +1,11 @@
 # u07-individuell-uppgift-JobChaser
 
+JobChaser är byggt med Next.js och React och hämtar jobbdata från [Remotive](https://remotive.com) API:et. Huvudfunktionaliteten i appen är jobblistan som visar jobben från API:et, samt sök och filtreringsfunktionen.
+
+[Deployment på Vercel]() →  
+[Teoretiska frågor](Teoretiska-fragor.md) →  
+[Projektanalys (VG)](Projektanalys.md) →  
+
 ## Använda bibliotek och resurser
 - [React 19](https://react.dev) med TypeScript
 - [Next.js](https://nextjs.org)
